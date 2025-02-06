@@ -30,6 +30,7 @@ class TestUser:
                     """of Classic Hollywood cinema."""
             )
 
+            # Correctly set the password using the password_hash setter
             user.password_hash = "whosafraidofvirginiawoolf"
             
             db.session.add(user)

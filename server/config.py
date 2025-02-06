@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+import os
 
 app = Flask(__name__)
 app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
@@ -22,3 +23,15 @@ db.init_app(app)
 bcrypt = Bcrypt(app)
 
 api = Api(app)
+
+
+
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///app.db")  # Default to SQLite
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"  # Use in-memory DB for tests
+    TESTING = True
+
